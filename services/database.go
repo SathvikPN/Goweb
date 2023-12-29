@@ -6,12 +6,14 @@ import (
 	"log"
 	"os"
 
+	"github.com/SathvikPN/Goweb/models"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq" // postgres golang driver // NOTE: use only init functions and nothing else (_)
 )
 
 func InitDB() error {
 	db := connectDB()
+	defer db.Close()
 	return createTables(db)
 }
 
@@ -54,4 +56,22 @@ func createTables(db *sql.DB) error {
 
 	fmt.Println("tables create Succcess!")
 	return nil
+}
+
+// insert post into db, returns inserted postID on success
+func InsertPost(post models.Post) int64 {
+	db := connectDB()
+	defer db.Close()
+
+	sqlQuery := `INSERT INTO posts (title, body) VALUES ($1, $2) RETURNING post_id`
+
+	var postID int64
+
+	err := db.QueryRow(sqlQuery, post.Title, post.Body).Scan(&postID)
+	if err != nil {
+		log.Fatal("failed to execute post insert query", err)
+	}
+
+	fmt.Println("insert single record, post_id", postID)
+	return postID
 }

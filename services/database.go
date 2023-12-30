@@ -75,3 +75,28 @@ func InsertPost(post models.Post) int64 {
 	fmt.Println("insert single record, post_id", postID)
 	return postID
 }
+
+func GetPost(id int64) (models.Post, error) {
+	db := connectDB()
+	defer db.Close()
+
+	var post models.Post
+
+	sqlQuery := `SELECT * FROM posts WHERE post_id=$1`
+
+	row := db.QueryRow(sqlQuery, id)
+
+	// unmarshal row object into post struct
+	err := row.Scan(&post.ID, &post.Title, &post.Body)
+
+	switch err {
+	case sql.ErrNoRows:
+		fmt.Println("No rows returned from DB")
+		return post, nil
+	case nil:
+		return post, nil
+	default:
+		log.Fatal("Unable to scan rows in DB")
+	}
+	return post, nil
+}

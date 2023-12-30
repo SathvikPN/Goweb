@@ -10,6 +10,7 @@ func Router() *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/newpost", middlewares.CreatePost).Methods("POST")
+	router.HandleFunc("/api/post/{id}", middlewares.GetPost).Methods("GET")
 
 	return router
 }

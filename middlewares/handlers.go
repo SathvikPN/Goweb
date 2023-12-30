@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -57,4 +58,71 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(post)
+}
+
+// GetAllUser will return all the users
+func GetAllPosts(w http.ResponseWriter, r *http.Request) {
+	// get all the posts in the db
+	posts, err := services.GetAllPosts()
+
+	if err != nil {
+		log.Fatalf("Unable to get all posts. %v", err)
+	}
+
+	if len(posts) == 0 {
+		posts = []models.Post{}
+	}
+	// send all the users as response
+	json.NewEncoder(w).Encode(posts)
+}
+
+func UpdatePost(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		log.Fatal("unable to convert string into int, error:", err)
+	}
+
+	var post models.Post
+
+	// decode JSON Request to post struct
+	err = json.NewDecoder(r.Body).Decode(&post)
+
+	if err != nil {
+		log.Fatalf("Unable to decode the request body.  %v", err)
+	}
+
+	updatedRows := services.UpdatePost(int64(id), post)
+	msg := "post update OK."
+	if updatedRows == 0 {
+		msg = "no updates."
+	}
+	msg = msg + "Total rows/record affected: " + fmt.Sprint(updatedRows)
+
+	// format the response message
+	res := response{
+		ID:      int64(id),
+		Message: msg,
+	}
+
+	json.NewEncoder(w).Encode(res)
+}
+
+func DeletePost(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		log.Fatal("unable to convert string into int, error:", err)
+	}
+	deletedRows := services.DeletePost(int64(id))
+	msg := "post deleted successfully. "
+	if deletedRows == 0 {
+		msg = "Non-existent post. Delete OK."
+	}
+	msg = msg + "Total rows/record affected: " + fmt.Sprint(deletedRows)
+	res := response{
+		ID:      int64(id),
+		Message: msg,
+	}
+	json.NewEncoder(w).Encode(res)
 }

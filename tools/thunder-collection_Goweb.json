@@ -1,0 +1,89 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Goweb",
+    "dateExported": "2023-12-30T05:45:07.414Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "fc19f43d-391b-410e-af81-71fd80020c98",
+            "colId": "1bc8d96d-e806-46a9-b463-ef815790cdcc",
+            "containerId": "",
+            "name": "NewPost",
+            "url": "http://localhost:8080/api/newpost",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-12-29T19:14:22.546Z",
+            "modified": "2023-12-30T05:43:04.520Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"Anew\",\n  \"body\": \"My new post\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "841eb92f-b32c-4ede-a88a-ecce76285f99",
+            "colId": "1bc8d96d-e806-46a9-b463-ef815790cdcc",
+            "containerId": "",
+            "name": "GetAllPost",
+            "url": "http://localhost:8080/api/post",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-12-30T04:38:02.160Z",
+            "modified": "2023-12-30T04:38:09.452Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "df91f9e9-92e5-4ee6-9a0e-504de54628fe",
+            "colId": "1bc8d96d-e806-46a9-b463-ef815790cdcc",
+            "containerId": "",
+            "name": "GetPost",
+            "url": "http://localhost:8080/api/post/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-12-30T05:04:16.151Z",
+            "modified": "2023-12-30T05:21:55.449Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "282555a3-1215-489a-b9f6-8e45428498f3",
+            "colId": "1bc8d96d-e806-46a9-b463-ef815790cdcc",
+            "containerId": "",
+            "name": "UpdatePost",
+            "url": "http://localhost:8080/api/post/10",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-12-30T05:06:02.215Z",
+            "modified": "2023-12-30T05:40:19.650Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"update post\",\n  \"body\": \"update the post\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9e27d23f-979f-40f5-aafb-ab439cd7e3ec",
+            "colId": "1bc8d96d-e806-46a9-b463-ef815790cdcc",
+            "containerId": "",
+            "name": "DeletePost",
+            "url": "http://localhost:8080/api/deletepost/10",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2023-12-30T05:07:30.331Z",
+            "modified": "2023-12-30T05:35:58.661Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

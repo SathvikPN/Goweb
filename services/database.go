@@ -100,3 +100,78 @@ func GetPost(id int64) (models.Post, error) {
 	}
 	return post, nil
 }
+
+func GetAllPosts() ([]models.Post, error) {
+	db := connectDB()
+	defer db.Close()
+
+	var posts []models.Post
+
+	sqlQuery := `SELECT * FROM posts`
+
+	rows, err := db.Query(sqlQuery)
+	if err != nil {
+		log.Fatalf("Unable to execute the query. %v", err)
+	}
+
+	defer rows.Close()
+
+	// iterate over the rows
+	for rows.Next() {
+		var post models.Post
+
+		// unmarshal the row object to post
+		err = rows.Scan(&post.ID, &post.Title, &post.Body)
+
+		if err != nil {
+			log.Fatalf("Unable to scan the row. %v", err)
+		}
+
+		// append the post in the posts slice
+		posts = append(posts, post)
+	}
+
+	return posts, nil
+}
+
+func UpdatePost(id int64, post models.Post) int64 {
+	db := connectDB()
+	defer db.Close()
+
+	sqlQuery := `UPDATE posts SET title=$2, body=$3 WHERE post_id=$1`
+
+	res, err := db.Exec(sqlQuery, id, post.Title, post.Body)
+	if err != nil {
+		log.Fatalf("Unable to execute the query. %v", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Fatalf("Error while checking the affected rows. %v", err)
+	}
+
+	fmt.Printf("Total rows/record affected %v", rowsAffected)
+
+	return rowsAffected
+}
+
+func DeletePost(id int64) int64 {
+	db := connectDB()
+	defer db.Close()
+
+	sqlQuery := `DELETE FROM posts WHERE post_id=$1`
+
+	res, err := db.Exec(sqlQuery, id)
+	if err != nil {
+		log.Fatalf("Unable to execute the query. %v", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Fatalf("Error while checking the affected rows. %v", err)
+	}
+
+	fmt.Printf("Total rows/record affected %v", rowsAffected)
+
+	return rowsAffected
+}

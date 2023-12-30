@@ -31,7 +31,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Unable to decode request body", err)
 	}
-
+	post.CreatedAt = services.GetCurrentTime()
 	insertID := services.InsertPost(post)
 
 	// format response object

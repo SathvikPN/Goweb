@@ -46,6 +46,7 @@ func createTables(db *sql.DB) error {
 		post_id SERIAL,
 		title TEXT,
 		body TEXT,
+		created_at TIMETZ,
 		PRIMARY KEY (post_id));`
 
 	_, err := db.Exec(startQuery + tableName + endQuery)
@@ -63,11 +64,11 @@ func InsertPost(post models.Post) int64 {
 	db := connectDB()
 	defer db.Close()
 
-	sqlQuery := `INSERT INTO posts (title, body) VALUES ($1, $2) RETURNING post_id`
+	sqlQuery := `INSERT INTO posts (title, body, created_at) VALUES ($1, $2, $3) RETURNING post_id`
 
 	var postID int64
 
-	err := db.QueryRow(sqlQuery, post.Title, post.Body).Scan(&postID)
+	err := db.QueryRow(sqlQuery, post.Title, post.Body, post.CreatedAt).Scan(&postID)
 	if err != nil {
 		log.Fatal("failed to execute post insert query", err)
 	}

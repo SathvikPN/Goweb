@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/SathvikPN/Goweb/models"
 	"github.com/SathvikPN/Goweb/services"
+	"github.com/gorilla/mux"
 	_ "github.com/lib/pq" // postgres golang driver // NOTE: use only init functions and nothing else (_)
 )
 
@@ -39,4 +41,20 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	// send the response
 	json.NewEncoder(w).Encode(res)
+}
+
+// return single post by ID
+func GetPost(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		log.Fatal("unable to convert string into int, error:", err)
+	}
+
+	post, err := services.GetPost(int64(id))
+	if err != nil {
+		log.Fatal("unable to get post, error:", err)
+	}
+
+	json.NewEncoder(w).Encode(post)
 }

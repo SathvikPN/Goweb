@@ -88,7 +88,7 @@ func GetPost(id int64) (models.Post, error) {
 	row := db.QueryRow(sqlQuery, id)
 
 	// unmarshal row object into post struct
-	err := row.Scan(&post.ID, &post.Title, &post.Body)
+	err := row.Scan(&post.ID, &post.Title, &post.Body, &post.CreatedAt)
 
 	switch err {
 	case sql.ErrNoRows:
@@ -122,7 +122,7 @@ func GetAllPosts() ([]models.Post, error) {
 		var post models.Post
 
 		// unmarshal the row object to post
-		err = rows.Scan(&post.ID, &post.Title, &post.Body)
+		err = rows.Scan(&post.ID, &post.Title, &post.Body, &post.CreatedAt)
 
 		if err != nil {
 			log.Fatalf("Unable to scan the row. %v", err)

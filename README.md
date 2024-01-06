@@ -1,5 +1,13 @@
 # Goweb
-Get started with web application development using Go
+A simple backend development project using Go
+
+> Thunder Client configuration available at tool/ directory
+
+### Run
+- configure .env file using .env.example structure, source .env
+- docker-compose up -d database 
+- docker exec -it db-container-id psql -U a_user -d goweb
+- `go run .`
 
 ### setup
 - Router: github.com/gorilla/mux
@@ -8,7 +16,7 @@ Get started with web application development using Go
 - Environment Variable Loader: github.com/joho/Godotenv
 
 ### database instance
-- postgres database as docker container. (docker-compose up -d)     [--env-file [.env]]
+- postgres database as docker container. (docker-compose up -d service_name)
 - create database tables
 - if database container hosted in cloud, use credentials in .env file (create file). sample .env file is .env.example
 

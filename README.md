@@ -1,5 +1,12 @@
 # Goweb
-Get started with web application development using Go
+A simple backend development project using Go
+
+> Thunder Client configuration available at tool/ directory
+
+### Run
+- configure .env file using .env.example structure
+- docker-compose up --env-file .env -d database 
+- `go run .`
 
 ### setup
 - Router: github.com/gorilla/mux
